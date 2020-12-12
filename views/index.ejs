@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/v4-shims.css">
+  <link rel="stylesheet" href="/stylesheets/tailwind.css">
+  <title><%=title%></title>
+  <style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+    body{
+      font-family: 'Montserrat', sans-serif;
+    }
+    #content::-webkit-scrollbar {
+  display: none;
+    }
+    html{
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body>
+  <div class="flex h-screen w-full">
+    <!--<div class="w-4/12 bg-indigo-500 shadow h-full">
+
+    </div>-->
+    <div class="w-full h-full bg-white" id="app">
+      <div style="height: 10%;" class="bg-indigo-500 text-2xl text-white shadow-md border py-3 pl-3">
+        <i class="fas fa-language"></i> Text To Speech
+      </div>
+
+      <div class="bg-gray-100 px-2 pt-3 overflow-y-scroll"  style="height: 79%;" id="content">
+
+         
+          <div class="text-gray-500 px-6 py-4 border-0 rounded relative mb-4 bg-white shadow-md" v-for="todo in message">
+            <span class="text-xl inline-block mr-5 align-middle">
+              <button class="absolute hover:text-indigo-500 bg-transparent text-blue-400 text-2xl font-semibold leading-none left-0 top-0 mt-4 ml-4 outline-none focus:outline-none">
+              <i class="fas fa-comment-alt"></i>
+            </button>
+            </span>
+            <span class="inline-block align-middle mr-8">
+              {{todo.message|capitalize }}
+            </span>
+            <button class="absolute bg-transparent text-2xl font-semibold leading-none right-0 top-0 mt-4 mr-6 outline-none focus:outline-none">
+              <span>×</span>
+            </button>
+            <div class="p-2 w-full">
+              <audio controls>
+                <source src="horse.mp3" type="audio/mpeg">
+              Your browser does not support the audio element.
+              </audio>
+            </div>
+          </div>
+
+
+      </div>
+      <div class="w-full flex items-center text-center bg-gray-100  p-2" style="height: 11%;">
+        
+        <button class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-3 py-3 rounded shadow hover:shadow-lg outline-none w-1/12 focus:outline-none mr-2 " type="button" style="transition: all .15s ease">
+          <i class="fas fa-microphone-alt"></i> Audio
+        </button>
+
+          <input type="text" v-on:keyup.enter="add" placeholder="Enter the message" class="px-3 py-3 placeholder-gray-400 text-gray-700 focus:ring-2 focus:ring-indigo-500  bg-white rounded text-sm border border-gray-400 focus:outline-none w-5/6 mr-2" v-model="text">
+      
+          <button class="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-3 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 w-1/12" type="button" style="transition: all .15s ease" v-on:click="add">
+        <i class="fas fa-paper-plane"></i> Enter
+      </button>
+      
+    </div>
+    </div>
+  </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+  var app = new Vue({
+  el: '#app',
+  data: {
+    message:[],
+    text:''
+  },
+  methods:{
+    add:function(){
+      if(this.text!="")
+      {
+      this.message.push({message:this.text,type:"text"})
+      this.text=""
+      }
+      else{
+        alert("Enter a text")
+      }
+    }
+  },
+  filters: {
+  capitalize: function (value) {
+    if (!value) return ''
+    value = value.toString()
+    return value.charAt(0).toUpperCase() + value.slice(1)
+  }}
+})
+</script>
+</html>
+
