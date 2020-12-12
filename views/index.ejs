@@ -18,35 +18,76 @@
     html{
       scroll-behavior: smooth;
     }
+    svg{
+  width: 100px;
+  height: 100px;
+  margin: 20px;
+}
   </style>
 </head>
 <body>
+  <div id="app">
+  <div v-if="seen"  class="h-screen bg-white flex justify-center w-full items-center absolute" style="z-index: 20000;">
+    <!--Loader-->
+<svg version="1.1" v-if="seen" id="L7" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve">
+<path fill="#718096" d="M31.6,3.5C5.9,13.6-6.6,42.7,3.5,68.4c10.1,25.7,39.2,38.3,64.9,28.1l-3.1-7.9c-21.3,8.4-45.4-2-53.8-23.3
+c-8.4-21.3,2-45.4,23.3-53.8L31.6,3.5z">
+    <animateTransform 
+       attributeName="transform" 
+       attributeType="XML" 
+       type="rotate"
+       dur="2s" 
+       from="0 50 50"
+       to="360 50 50" 
+       repeatCount="indefinite" />
+</path>
+<path fill="#718096" d="M42.3,39.6c5.7-4.3,13.9-3.1,18.1,2.7c4.3,5.7,3.1,13.9-2.7,18.1l4.1,5.5c8.8-6.5,10.6-19,4.1-27.7
+c-6.5-8.8-19-10.6-27.7-4.1L42.3,39.6z">
+    <animateTransform 
+       attributeName="transform" 
+       attributeType="XML" 
+       type="rotate"
+       dur="1s" 
+       from="0 50 50"
+       to="-360 50 50" 
+       repeatCount="indefinite" />
+</path>
+<path fill="#718096" d="M82,35.7C74.1,18,53.4,10.1,35.7,18S10.1,46.6,18,64.3l7.6-3.4c-6-13.5,0-29.3,13.5-35.3s29.3,0,35.3,13.5
+L82,35.7z">
+    <animateTransform 
+       attributeName="transform" 
+       attributeType="XML" 
+       type="rotate"
+       dur="2s" 
+       from="0 50 50"
+       to="360 50 50" 
+       repeatCount="indefinite" />
+</path>
+</svg>
+<!--Loader-->
+  </div>
   <div class="flex h-screen w-full">
-    <!--<div class="w-4/12 bg-indigo-500 shadow h-full">
-
-    </div>-->
-    <div class="w-full h-full bg-white" id="app">
+   
+    <div class="w-full h-full bg-white" >
       <div style="height: 10%;" class="bg-indigo-500 text-2xl text-white shadow-md border py-3 pl-3">
         <i class="fas fa-language"></i> Text To Speech
       </div>
 
-      <div class="bg-gray-100 px-2 pt-3 overflow-y-scroll"  style="height: 79%;" id="content">
+      <div class="bg-gray-100 px-3 pt-3 overflow-y-scroll" id="content"  style="height: 79%;" >
 
-         
-          <div class="text-gray-500 px-6 py-4 border-0 rounded relative mb-4 bg-white shadow-md" v-for="todo in message">
-            <span class="text-xl inline-block mr-5 align-middle">
-              <button class="absolute hover:text-indigo-500 bg-transparent text-blue-400 text-2xl font-semibold leading-none left-0 top-0 mt-4 ml-4 outline-none focus:outline-none">
+         <!--Text Card-->
+          <div class="text-gray-500 border-gray-300 border px-6 py-4 border-0 rounded relative mb-3 bg-white" v-for="todo in message">
+            <span class="text-xl inline-block mr-11 align-middle">
+              <button class="absolute hover:text-indigo-500 bg-transparent text-blue-400 text-2xl font-semibold leading-none left-0 top-0 mt-4 ml-10 outline-none focus:outline-none">
               <i class="fas fa-comment-alt"></i>
             </button>
             </span>
             <span class="inline-block align-middle mr-8">
               {{todo.message|capitalize }}
             </span>
-            <button class="absolute bg-transparent text-2xl font-semibold leading-none right-0 top-0 mt-4 mr-6 outline-none focus:outline-none">
-              <span>×</span>
-            </button>
-            <div class="p-2 w-full">
-              <audio controls >
+            <div class="pt-4 w-full">
+              <audio controls class="w-full border border-gray-300 rounded-full">
                 <source v-bind:src="'/audio/'+todo.src+'.mp3'" type="audio/mpeg">
               Your browser does not support the audio element.
               </audio>
@@ -70,6 +111,7 @@
     </div>
     </div>
   </div>
+</div>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -79,16 +121,23 @@
   el: '#app',
   data: {
     message:[],
-    text:''
+    text:'',
+    seen:false
   },
   methods:{
     add:function(){
       if(this.text!="")
       {
+        this.seen=true
+        var content=document.querySelector("#content")
         axios.post('/hear',{message:this.text})
           .then(response=> {
               this.message.push({message:this.text,type:"text",src:response.data.data})
               this.text=""
+              this.seen=false
+              setTimeout(()=>{
+                content.scrollTo(0,content.scrollHeight);
+              },1000)
           })
           .catch(function (error) {
             console.log(error);
