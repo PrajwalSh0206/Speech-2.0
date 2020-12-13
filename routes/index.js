@@ -10,7 +10,7 @@ var storage = multer.diskStorage({
     cb(null, './uploads')
   },
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '.pdf')
+    cb(null, file.originalname)
   }
 })
  
