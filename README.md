@@ -3,7 +3,7 @@
 
 ## Command Lines:
 
-> npm install <br>
-> npm install -g [nodemon](https://www.npmjs.com/package/nodemon) `Optional` <br>
-> nodemon <br>
-> node index.js
+``` npm install ```
+``` npm install -g [nodemon](https://www.npmjs.com/package/nodemon) ```
+``` nodemon ```
+``` node index.js ```
