@@ -6,7 +6,7 @@
 > npm install <br>
 > npm install -g [nodemon](https://www.npmjs.com/package/nodemon) `If not installed (Optional)` <br>
 
-### Running Setup
+### Running Setup:
 
 > nodemon <br>
 > node index.js
