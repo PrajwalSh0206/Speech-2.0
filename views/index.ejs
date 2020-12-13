@@ -81,17 +81,18 @@ L82,35.7z">
       <div class="bg-gray-100 px-3 pt-3 overflow-y-scroll" id="content"  style="height: 79%;" >
 
          <!--Text Card-->
-          <div class="text-gray-500 border-gray-300 border px-6 py-4 border-0 rounded relative mb-3 bg-white" v-for="todo in message">
-            <span class="text-xl inline-block mr-11 align-middle">
+          <div class=" border-gray-300 border px-6 py-4 border-0 rounded relative mb-3" v-bind:class="{'bg-blue-500 text-white': todo.type==='pdf','bg-white text-gray-500': todo.type==='text'}" v-for="todo in message">
+            <span class="text-xl inline-block mr-11 align-middle" v-if="todo.type==='text'">
               <button class="absolute hover:text-indigo-500 bg-transparent text-blue-400 text-2xl font-semibold leading-none left-0 top-0 mt-4 ml-10 outline-none focus:outline-none">
               <i class="fas fa-comment-alt"></i>
             </button>
             </span>
+            
             <span class="inline-block align-middle mr-8">
               {{todo.message|capitalize }}
             </span>
             <div class="pt-4 w-full">
-              <audio controls class="w-full border border-gray-300 rounded-full">
+              <audio controls class="w-full rounded-full" v-bind:class="{' border border-gray-300':todo.type==='text'}">
                 <source v-bind:src="'/audio/'+todo.src+'.mp3'" type="audio/mpeg">
               Your browser does not support the audio element.
               </audio>
@@ -132,19 +133,38 @@ L82,35.7z">
   methods:{
     handleFileUpload(){
     this.file = this.$refs.file.files[0];
-    console.log(this.file)
     let formData = new FormData();
       formData.append('file', this.file);
-    axios.post( '/files',
+      this.seen=true
+        axios.post( '/files',
           formData,
-        ).then(function(){
-          console.log('SUCCESS!!');
+        ).then(async response=>{
+          this.seen=false
+          arrdata=response.data.filetext
+          arrdata.forEach( element => {
+           this.pdf(element)
+          });
+          
         })
         .catch(function(){
           console.log('FAILURE!!');
         });
   },
-    add:function(){
+  pdf:function(element){
+    axios.post('/hear',{message:element})
+          .then(response=> {
+              this.message.push({message:element,type:"pdf",src:response.data.data})
+              setTimeout(()=>{
+                content.scrollTo(0,content.scrollHeight);
+              },500)
+          })
+          .catch(function (error) {
+            console.log(error);
+          });   
+
+  }
+  ,
+    add:async function(){
       if(this.text!="")
       {
         this.seen=true
