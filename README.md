@@ -1,5 +1,5 @@
 # Speech-2.0
-  **The following project can be used to transcirpt audio as well as to convert audio to text. It can also accept files to read text.**
+  **The following project can be used to transcript audio as well as to convert audio to text. It can also accept files to read text.**
 
 ### Dependencies:
 
