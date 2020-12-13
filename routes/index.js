@@ -3,6 +3,18 @@ var router = express.Router();
 const gTTS = require('gtts');
 const fs = require('fs');
 const path = require('path');
+const multer=require('multer');
+
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads')
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.fieldname + '.pdf')
+  }
+})
+ 
+var upload = multer({ storage: storage })
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -13,12 +25,26 @@ router.get('/', function(req, res, next) {
       });
     }
   })
+  fs.readdir('./uploads',(err,files)=>{
+    for (const file of files) {
+      fs.unlink(path.join('./uploads', file), err => {
+        if (err) throw err;
+      });
+    }
+  })
   res.render('index', { title: 'Text/Speech' });
 });
 
 router.get('/favicon.ico', function(req, res) { 
   res.sendStatus(204); 
 });
+
+router.post('/files',upload.single('file'), function (req, res) {
+  console.log(req.file)
+  fs.readFile(req.file.path, function(err, data) {
+    console.log(data)
+  });
+})
 
 router.post('/hear', function (req, res) {
   var gtts = new gTTS(req.body.message, 'en');

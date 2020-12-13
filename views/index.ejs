@@ -72,8 +72,8 @@ L82,35.7z">
     <div class="w-full h-full bg-white" >
       <div style="height: 10%;" class="bg-indigo-500 flex items-center text-2xl text-white shadow-md border py-3 pl-3">
         <i class="fas fa-language"></i>&nbsp;Text To Speech
-
-        <button class="ml-auto mr-2 bg-white text-indigo-500 active:bg-gray-200 font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
+        <input type="file" enctype="multipart/form-data" class="hidden" accept="application/pdf" id="file" ref="file" v-on:change="handleFileUpload">
+        <button id="browse" class="ml-auto mr-2 bg-white text-indigo-500 active:bg-gray-200 font-bold uppercase text-sm px-6 py-2 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" type="button" style="transition: all .15s ease">
           <i class="fas fa-file-word"></i> Browse
         </button>
       </div>
@@ -102,13 +102,13 @@ L82,35.7z">
       </div>
       <div class="w-full flex items-center text-center bg-gray-100  p-2" style="height: 11%;">
         
-        <button class="bg-green-500 text-white active:bg-green-600 font-bold uppercase text-sm px-3 py-3 rounded shadow hover:shadow-lg outline-none w-1/12 focus:outline-none mr-2 " type="button" style="transition: all .15s ease">
+        <button class="bg-green-500 focus:ring-2 ring-offset-1 focus:ring-green-600 focus:ring-opacity-50 text-white active:bg-green-600 font-bold uppercase text-sm px-3 py-3 rounded shadow hover:shadow-lg outline-none w-1/12 focus:outline-none mr-2 " type="button" style="transition: all .15s ease">
           <i class="fas fa-microphone-alt"></i> Audio
         </button>
 
           <input type="text" v-on:keyup.enter="add" placeholder="Enter the message" class="px-3 py-3 placeholder-gray-400 text-gray-700 focus:ring-2 focus:ring-indigo-500  bg-white rounded text-sm border border-gray-400 focus:outline-none w-5/6 mr-2" v-model="text">
       
-          <button class="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm px-3 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 w-1/12" type="button" style="transition: all .15s ease" v-on:click="add">
+          <button class="bg-blue-500 text-white focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50  active:bg-blue-600 font-bold uppercase text-sm px-3 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 w-1/12" type="button" style="transition: all .15s ease" v-on:click="add">
         <i class="fas fa-paper-plane"></i> Enter
       </button>
       
@@ -126,9 +126,24 @@ L82,35.7z">
   data: {
     message:[],
     text:'',
-    seen:false
+    seen:false,
+    file:''
   },
   methods:{
+    handleFileUpload(){
+    this.file = this.$refs.file.files[0];
+    console.log(this.file)
+    let formData = new FormData();
+      formData.append('file', this.file);
+    axios.post( '/files',
+          formData,
+        ).then(function(){
+          console.log('SUCCESS!!');
+        })
+        .catch(function(){
+          console.log('FAILURE!!');
+        });
+  },
     add:function(){
       if(this.text!="")
       {
@@ -161,5 +176,7 @@ L82,35.7z">
   }}
 })
 </script>
+<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+<script src="/javascripts/index.js"></script>
 </html>
 

@@ -12,6 +12,9 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 #tailwind
 buildtailwind
 
+#uploads
+uploads
+
 #audio
 audio
 
