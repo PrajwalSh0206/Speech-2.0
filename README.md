@@ -9,7 +9,4 @@
 ### Running Setup
 
 > nodemon <br>
-
----
-
 > node index.js
