@@ -41,9 +41,6 @@ router.get('/favicon.ico', function(req, res) {
 
 router.post('/files',upload.single('file'), function (req, res) {
   console.log(req.file)
-  fs.readFile(req.file.path, function(err, data) {
-    console.log(data)
-  });
 })
 
 router.post('/hear', function (req, res) {
