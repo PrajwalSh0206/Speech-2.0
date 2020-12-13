@@ -10,6 +10,6 @@
 
 > nodemon <br>
 
-or <br>
+---
 
 > node index.js
