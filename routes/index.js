@@ -42,6 +42,7 @@ router.get('/favicon.ico', function(req, res) {
 
 router.post('/files',upload.single('file'), function (req, res) {
   console.log(req.file)
+  console.log(req.file.filename)
   extract('./uploads/'+req.file.filename, { splitPages: false }, function (err, text) {
     if (err) {
       console.dir(err)
@@ -55,7 +56,6 @@ router.post('/files',upload.single('file'), function (req, res) {
 router.post('/hear', async function (req, res) {
   var gtts = new gTTS(req.body.message, 'en');
   var loc='speech'+ Math.floor(Math.random() * Math.floor(300))
-
   gtts.save(`./public/audio/${loc}.mp3`, function (err, result) {
     if(err) { 
       throw new Error(err) 
