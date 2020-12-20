@@ -41,8 +41,7 @@ router.get('/favicon.ico', function(req, res) {
 });
 
 router.post('/files',upload.single('file'), function (req, res) {
-  console.log(req.file)
-  console.log(req.file.filename)
+  //console.log(req.file)
   extract('./uploads/'+req.file.filename, { splitPages: false }, function (err, text) {
     if (err) {
       console.dir(err)
