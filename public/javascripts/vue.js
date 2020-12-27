@@ -4,11 +4,26 @@ var app = new Vue({
       message:[],
       text:'',
       seen:false,
-      file:''
+      file:'',
+      audio:'',
     },
     methods:{
       audiofile:function(){
-  
+        this.audio=this.$refs.file1.files[0]
+        console.log(this.$refs.file1.files[0])
+        let formData = new FormData();
+        formData.append('file', this.audio);
+        this.seen=true
+          axios.post( '/audio',
+            formData,
+          ).then( response=>{
+            this.seen=false
+            msg=response.data.filetext
+            this.message.push({message:msg,type:"audio",src:response.data.audio})
+          })
+          .catch(function(){
+            console.log('FAILURE!!');
+          });
       },
       handleFileUpload:function(){
       this.file = this.$refs.file.files[0];

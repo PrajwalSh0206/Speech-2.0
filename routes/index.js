@@ -5,6 +5,8 @@ const fs = require('fs');
 const path = require('path');
 const multer=require('multer');
 var extract = require('pdf-text-extract')
+const {PythonShell} =require('python-shell'); 
+
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -67,6 +69,21 @@ router.post('/files',upload.single('file'), function (req, res) {
 
 })
 
+router.post('/audio',upload.single('file'), function (req, res) {
+  //'./public/audio/'+req.file.filename
+  let options = { 
+    mode: 'text', 
+    pythonOptions: ['-u'], // get print results in real-time 
+    scriptPath: './', //If you are having python_test.py script in same folder, then it's optional. 
+   args: [req.file.filename] //An argument which can be accessed in the script using sys.argv[1] 
+}; 
+
+PythonShell.run('index.py', options, function (err, result){ 
+  if (err) throw err; 
+  res.json({filetext:result.toString(),audio:req.file.filename})
+}); 
+})
+
 router.post('/hear', async function (req, res) {
   var gtts = new gTTS(req.body.message, 'en');
   var loc='speech'+ Math.floor(Math.random() * Math.floor(300))
@@ -78,4 +95,6 @@ router.post('/hear', async function (req, res) {
     res.json({data:loc});
   });
 })
+
+
 module.exports = router;
