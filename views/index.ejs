@@ -102,7 +102,7 @@ L82,35.7z">
 
       </div>
       <div class="w-full flex items-center text-center bg-gray-100  p-2" style="height: 11%;">
-        <input type="file" enctype="multipart/form-data" class="hidden" accept="audio/*	" id="file2" ref="file" v-on:change="audiofile">
+        <input type="file" enctype="multipart/form-data" class="hidden" accept="audio/*	" id="file2" ref="file2" v-on:change="audiofile">
         <button class="bg-green-500 focus:ring-2 ring-offset-1 focus:ring-green-600 focus:ring-opacity-50 text-white active:bg-green-600 font-bold uppercase text-sm px-3 py-3 rounded shadow hover:shadow-lg outline-none w-1/12 focus:outline-none mr-2 " id="audio" type="button" style="transition: all .15s ease">
           <i class="fas fa-microphone-alt"></i> Audio
         </button>
@@ -121,84 +121,7 @@ L82,35.7z">
 
 <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script>
-  var app = new Vue({
-  el: '#app',
-  data: {
-    message:[],
-    text:'',
-    seen:false,
-    file:''
-  },
-  methods:{
-    audiofile:function(){
-
-    },
-    handleFileUpload:function(){
-    this.file = this.$refs.file.files[0];
-    let formData = new FormData();
-      formData.append('file', this.file);
-      this.seen=true
-        axios.post( '/files',
-          formData,
-        ).then( response=>{
-          this.seen=false
-          arrdata=response.data.filetext
-          arrdata.forEach(  element => {
-            this.pdf(element)
-          });
-          
-        })
-        .catch(function(){
-          console.log('FAILURE!!');
-        });
-  },
-
-  pdf:function(element){
-    axios.post('/hear',{message:element})
-          .then(response=> {
-              this.message.push({message:element,type:"pdf",src:response.data.data})
-              setTimeout(()=>{
-                content.scrollTo(0,content.scrollHeight);
-              },500)
-          })
-          .catch(function (error) {
-            console.log(error);
-          });   
-
-  },
-    add: function(){
-      if(this.text!="")
-      {
-        this.seen=true
-        var content=document.querySelector("#content")
-        axios.post('/hear',{message:this.text})
-          .then(response=> {
-              this.message.push({message:this.text,type:"text",src:response.data.data})
-              this.text=""
-              this.seen=false
-              setTimeout(()=>{
-                content.scrollTo(0,content.scrollHeight);
-              },500)
-          })
-          .catch(function (error) {
-            console.log(error);
-          });   
-     
-      }
-      else{
-        alert("Enter a text")
-      }
-    }
-  },
-  filters: {
-  capitalize: function (value) {
-    if (!value) return ''
-    value = value.toString()
-    return value.charAt(0).toUpperCase() + value.slice(1)
-  }}
-})
-</script>
+<script src="/javascripts/vue.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.js"></script>
 <script src="/javascripts/index.js"></script>
 </html>

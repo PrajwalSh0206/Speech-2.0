@@ -8,7 +8,7 @@ var extract = require('pdf-text-extract')
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './uploads')
+    cb(null, './public/uploads')
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname)
@@ -17,22 +17,38 @@ var storage = multer.diskStorage({
  
 var upload = multer({ storage: storage })
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  fs.readdir('./public/audio',(err,files)=>{
+async function clear(){
+  if(fs.existsSync('./public/audio'))
+ { fs.readdir('./public/audio',(err,files)=>{
     for (const file of files) {
       fs.unlink(path.join('./public/audio', file), err => {
         if (err) throw err;
       });
     }
   })
-  fs.readdir('./uploads',(err,files)=>{
+}else
+ {
+  fs.mkdirSync('./public/audio')
+}
+    if(fs.existsSync('./public/uploads'))
+  {
+    fs.readdir('./public/uploads',(err,files)=>{
     for (const file of files) {
-      fs.unlink(path.join('./uploads', file), err => {
+      fs.unlink(path.join('./public/uploads', file), err => {
         if (err) throw err;
       });
     }
   })
+  }
+  else
+  {
+  fs.mkdirSync('./public/uploads')
+  }
+}
+
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  clear()
   res.render('index', { title: 'Text/Speech' });
 });
 
@@ -41,8 +57,7 @@ router.get('/favicon.ico', function(req, res) {
 });
 
 router.post('/files',upload.single('file'), function (req, res) {
-  //console.log(req.file)
-  extract('./uploads/'+req.file.filename, { splitPages: false }, function (err, text) {
+  extract('./public/uploads/'+req.file.filename, { splitPages: false }, function (err, text) {
     if (err) {
       console.dir(err)
       return
