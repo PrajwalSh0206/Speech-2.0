@@ -3,10 +3,10 @@
 
 ### Dependencies:
 
-> npm install <br>
-> npm install -g [nodemon](https://www.npmjs.com/package/nodemon) `If not installed (Optional)` <br>
+- [x] npm install <br>
+- [x] npm install -g [nodemon](https://www.npmjs.com/package/nodemon) `If not installed (Optional)` <br>
 
 ### Running Setup:
 
-> nodemon <br>
-> node index.js
+- [x] nodemon <br>
+- [x] node index.js
