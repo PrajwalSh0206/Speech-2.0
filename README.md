@@ -11,7 +11,7 @@
 - [x] pip install -r requirements.txt
   - [x] Download and extract poppler and save bin location in path file from [here](https://github.com/oschwartz10612/poppler-windows/releases/)
   - [x] Download and install tessarac-ocr from 
-    - [x] [Windows](https://github.com/UB-Mannheim/tesseract/wiki)
+    - [x] [Windows] (https://github.com/UB-Mannheim/tesseract/wiki)
     - [x] [Ubuntu] (https://tesseract-ocr.github.io/tessdoc/Installation.html)
 
 ### Running Setup:
