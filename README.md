@@ -8,7 +8,11 @@
 
 - [x] npm install 
 - [x] npm install -g [nodemon](https://www.npmjs.com/package/nodemon) `If not installed (Optional)` 
-- [x] pip install SpeechRecognition 
+- [x] pip install -r requirements.txt
+  - [x] Download and extract poppler and save bin location in path file from [here](https://github.com/oschwartz10612/poppler-windows/releases/)
+  - [x] Download and install tessarac-ocr from 
+    - [x] [Windows](https://github.com/UB-Mannheim/tesseract/wiki)
+    - [x] [Ubuntu] (https://tesseract-ocr.github.io/tessdoc/Installation.html)
 
 ### Running Setup:
 

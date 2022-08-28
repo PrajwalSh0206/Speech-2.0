@@ -1,6 +1,5 @@
 import speech_recognition as sr
 import sys
-from bs4 import BeautifulSoup  
 path=".\\public\\uploads\\"+str(sys.argv[1])
 harvard = sr.AudioFile(path)
 r = sr.Recognizer()
